@@ -3,7 +3,7 @@ devenvFlake: { flake-parts-lib, lib, inputs, ... }: {
 
     let
       devenvType = (devenvFlake.lib.mkEval {
-        inherit inputs pkgs;
+        inherit inputs;
         modules = [{
           config = {
             # Add flake-parts-specific config here if necessary

@@ -224,17 +224,16 @@
       lib = {
         mkConfig = args@{ pkgs, inputs, modules }:
           (self.lib.mkEval args).config;
-        mkEval = { pkgs, inputs, modules }:
+        mkEval = { inputs, modules }:
           let
             moduleInputs = { inherit git-hooks; } // inputs;
             project = inputs.nixpkgs.lib.evalModules {
               specialArgs = moduleInputs // {
-                inherit pkgs;
                 inputs = moduleInputs;
               };
               modules = [
                 (self.modules + /top-level.nix)
-                ({ config, ... }: {
+                ({ config, pkgs, ... }: {
                   packages = pkgs.lib.mkBefore [
                     (mkDevShellPackage config pkgs)
                   ];
